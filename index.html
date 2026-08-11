@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>tiwari tipper up</title>
+<style>
+  :root{
+    --bg:#050912;
+    --card-bg:#0b1220;
+    --border:#123049;
+    --blue:#29b6ff;
+    --blue2:#0d7fd6;
+    --text-dim:#8fa3b8;
+    --white:#f2f8ff;
+    --green:#2ee6a6;
+    --red:#ff4d5e;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    height:100%;
+    overflow:hidden;
+    background:var(--bg);
+    font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+    color:var(--white);
+  }
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(41,182,255,0.16), transparent 55%),
+      radial-gradient(circle at 15% 85%, rgba(41,182,255,0.08), transparent 45%),
+      var(--bg);
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(41,182,255,0.16), transparent 55%),
+      radial-gradient(circle at 15% 85%, rgba(41,182,255,0.08), transparent 45%),
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+      var(--bg);
+    background-size:auto, auto, 34px 34px, 34px 34px, auto;
+  }
+
+  .card{
+    width:min(92vw, 400px);
+    max-height:96vh;
+    background:linear-gradient(180deg, rgba(13,22,38,0.9), rgba(6,12,22,0.95));
+    border:1px solid var(--border);
+    border-radius:26px;
+    padding:clamp(16px,3.5vh,28px) clamp(18px,4vw,26px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:clamp(8px,1.6vh,14px);
+    box-shadow:0 0 60px rgba(41,182,255,0.12), inset 0 0 40px rgba(41,182,255,0.03);
+    opacity:0;
+    animation:cardIn 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+  }
+  @keyframes cardIn{
+    from{ opacity:0; transform:translateY(18px) scale(0.97); }
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  .avatar{
+    width:clamp(64px,14vh,88px);
+    height:clamp(64px,14vh,88px);
+    border-radius:50%;
+    border:3px solid var(--blue);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:radial-gradient(circle at 35% 30%, #1a3a52, #08131f);
+    font-size:clamp(28px,6vh,38px);
+    animation:avatarGlow 2.6s ease-in-out infinite;
+  }
+  @keyframes avatarGlow{
+    0%,100%{ box-shadow:0 0 22px rgba(41,182,255,0.55), 0 0 46px rgba(41,182,255,0.2); }
+    50%{ box-shadow:0 0 32px rgba(41,182,255,0.85), 0 0 66px rgba(41,182,255,0.4); }
+  }
+
+  h1{
+    font-size:clamp(28px,6.5vw,42px);
+    line-height:1;
+    font-weight:900;
+    letter-spacing:-0.5px;
+    background:linear-gradient(180deg, #ffffff 0%, #7fd4ff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 0 18px rgba(41,182,255,0.35));
+  }
+
+  .subtitle{
+    color:var(--text-dim);
+    font-size:clamp(12.5px,2.6vw,15px);
+    font-weight:500;
+    max-width:280px;
+    line-height:1.3;
+  }
+
+  .badge{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(41,182,255,0.06);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:8px 16px;
+    font-size:clamp(12px,2.4vw,14px);
+    font-weight:600;
+    color:#cfe7f9;
+    animation:badgeGlow 3s ease-in-out infinite;
+  }
+  @keyframes badgeGlow{
+    0%,100%{ box-shadow:0 0 0 rgba(41,182,255,0); border-color:var(--border); }
+    50%{ box-shadow:0 0 14px rgba(41,182,255,0.25); border-color:var(--blue2); }
+  }
+  .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 8px var(--green);
+    flex-shrink:0;
+  }
+  .badge b{ color:var(--blue); font-weight:800; }
+
+  .stats{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+  .stat{
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:clamp(8px,1.8vh,14px) 4px;
+    box-shadow:0 0 16px rgba(41,182,255,0.06);
+    transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .stat:active, .stat:hover{
+    transform:translateY(-3px);
+    border-color:var(--blue);
+    box-shadow:0 0 22px rgba(41,182,255,0.22);
+  }
+  .stat .icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:clamp(30px,6.4vh,38px);
+    height:clamp(30px,6.4vh,38px);
+    margin:0 auto 6px;
+    border-radius:10px;
+    background:rgba(41,182,255,0.08);
+    border:1px solid rgba(41,182,255,0.35);
+    box-shadow:0 0 10px rgba(41,182,255,0.18);
+  }
+  .stat .icon svg{ width:56%; height:56%; stroke:var(--blue); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; filter:drop-shadow(0 0 4px rgba(41,182,255,0.5)); }
+  .stat .num{
+    font-size:clamp(15px,3.4vw,20px);
+    font-weight:800;
+    line-height:1.1;
+    background:linear-gradient(100deg, var(--blue) 40%, #ffffff 50%, var(--blue) 60%);
+    background-size:250% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:shine 3.2s linear infinite;
+  }
+  @keyframes shine{
+    0%{ background-position:200% 0; }
+    100%{ background-position:-50% 0; }
+  }
+  .stat .label{ font-size:clamp(8.5px,1.8vw,10px); color:var(--text-dim); letter-spacing:0.5px; text-transform:uppercase; margin-top:2px; }
+
+  .cta{
+    position:relative;
+    overflow:hidden;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    background:linear-gradient(135deg, var(--blue) 0%, var(--blue2) 100%);
+    color:#03101d;
+    font-weight:800;
+    font-size:clamp(14px,3vw,18px);
+    padding:clamp(12px,2.4vh,17px) 20px;
+    border:none;
+    border-radius:999px;
+    text-decoration:none;
+    box-shadow:0 0 26px rgba(41,182,255,0.55), 0 8px 20px rgba(0,0,0,0.35);
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+    animation:ctaPulse 2.6s ease-in-out infinite;
+  }
+  .cta:active{ transform:scale(0.97); }
+  .cta svg{ width:20px; height:20px; position:relative; z-index:2; }
+  .cta span{ position:relative; z-index:2; }
+  .cta::before{
+    content:"";
+    position:absolute;
+    top:0; left:-60%;
+    width:40%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform:skewX(-20deg);
+    animation:ctaShine 2.8s ease-in-out infinite;
+  }
+  @keyframes ctaShine{
+    0%{ left:-60%; }
+    45%{ left:130%; }
+    100%{ left:130%; }
+  }
+  @keyframes ctaPulse{
+    0%,100%{ box-shadow:0 0 26px rgba(41,182,255,0.55), 0 8px 20px rgba(0,0,0,0.35); }
+    50%{ box-shadow:0 0 38px rgba(41,182,255,0.85), 0 8px 24px rgba(0,0,0,0.4); }
+  }
+
+  .timer-label{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:clamp(11px,2.3vw,13px);
+    font-weight:600;
+    color:#e5e9ee;
+  }
+  .timer-label .pulse{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--red);
+    box-shadow:0 0 8px var(--red);
+    animation:pulse 1.4s infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+  .timer{
+    display:flex;
+    align-items:center;
+    gap:clamp(6px,1.6vw,10px);
+  }
+  .timer .box{
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--blue2);
+    border-radius:10px;
+    padding:clamp(6px,1.4vh,10px) clamp(10px,2.6vw,16px);
+    min-width:44px;
+  }
+  .timer .box .val{ font-size:clamp(17px,3.6vw,24px); font-weight:800; color:var(--blue); line-height:1; transition:transform 0.15s ease, color 0.15s ease; display:inline-block; }
+  .timer .box .val.bump{ transform:scale(1.18); color:#fff; }
+  .timer .box .sub{ font-size:8px; color:var(--text-dim); letter-spacing:0.5px; margin-top:3px; }
+  .timer .colon{ font-size:clamp(16px,3vw,20px); color:var(--blue2); font-weight:800; }
+
+  footer{
+    font-size:10px;
+    color:#4d6478;
+  }
+
+  @media (max-height: 620px){
+    .card{ gap:6px; }
+    .subtitle{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="avatar">TT</div>
+
+    <h1>TIWARI TIPPER UP</h1>
+    <div class="subtitle">Your City's Fastest Growing Fitness Community</div>
+    <div class="badge">
+      <span class="dot"></span>
+      Trusted by <b id="memberCount">100k+</b> Members
+    </div>
+
+    <div class="stats">
+      <div class="stat" style="animation:cardIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.25s backwards;">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="12" cy="12" r="1" fill="var(--blue)"/>
+          </svg>
+        </div>
+        <div class="num">97+</div>
+        <div class="label">ACCURACY</div>
+      </div>
+      <div class="stat" style="animation:cardIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.35s backwards;">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"/>
+            <path d="M7 5H4a2 2 0 0 0 0 4h1.5M17 5h3a2 2 0 0 1 0 4h-1.5"/>
+            <path d="M12 13v3M9 20h6M10 16.5h4v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2Z"/>
+          </svg>
+        </div>
+        <div class="num">6K+</div>
+        <div class="label">PREDICTION</div>
+      </div>
+      <div class="stat" style="animation:cardIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.45s backwards;">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M17 11a3 3 0 1 0 0-6M15 8c1.5 0 3 1.2 3 3M21 20c0-2.5-1.8-4.6-4-5.4"/>
+          </svg>
+        </div>
+        <div class="num">100k+</div>
+        <div class="label">Members</div>
+      </div>
+    </div>
+
+    <a href="https://t.me/+acDanrzE2_I2MGVl" target="_blank" class="cta">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21.05 2.93 2.4 10.4c-1.28.52-1.27 1.24-.23 1.55l4.77 1.49 1.84 5.62c.22.61.38.86.79.86.39 0 .56-.18.78-.4l1.9-1.85 4.5 3.32c.83.46 1.42.22 1.63-.77l2.96-13.94c.31-1.23-.47-1.79-1.29-1.35Z" fill="#03101d"/>
+      </svg>
+      <span>Join Our Channel</span>
+    </a>
+
+    <div class="timer-label">
+      <span class="pulse"></span>
+      Limited Free Trial Slots — Offer Expires In
+    </div>
+
+    <div class="timer">
+      <div class="box"><div class="val" id="hh">05</div><div class="sub">HOURS</div></div>
+      <span class="colon">:</span>
+      <div class="box"><div class="val" id="mm">47</div><div class="sub">MINS</div></div>
+      <span class="colon">:</span>
+      <div class="box"><div class="val" id="ss">04</div><div class="sub">SECS</div></div>
+    </div>
+
+    <footer>@marvelagency</footer>
+  </div>
+
+<script>
+  // Countdown timer — resets to a fresh window on load so it always shows urgency
+  let totalSeconds = 5*3600 + 47*60 + 4;
+  const hh = document.getElementById('hh');
+  const mm = document.getElementById('mm');
+  const ss = document.getElementById('ss');
+
+  function pad(n){ return n.toString().padStart(2,'0'); }
+
+  function tick(){
+    if(totalSeconds <= 0){ totalSeconds = 5*3600 + 47*60 + 4; } // loop
+    totalSeconds--;
+    const h = Math.floor(totalSeconds/3600);
+    const m = Math.floor((totalSeconds%3600)/60);
+    const s = totalSeconds%60;
+    hh.textContent = pad(h);
+    mm.textContent = pad(m);
+    ss.textContent = pad(s);
+
+    ss.classList.add('bump');
+    setTimeout(()=>ss.classList.remove('bump'), 150);
+  }
+  setInterval(tick, 1000);
+</script>
+
+</body>
+</html>
